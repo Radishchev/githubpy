@@ -10,7 +10,7 @@ Michael Liao (askxuefeng@gmail.com)
 
 Usage:
 
->>> gh = GitHub(username='githubpy', password='test-githubpy-1234')
+>>> gh = GitHub(access_token='your-access-token')
 >>> L = gh.users('githubpy').followers.get()
 >>> L[0].id
 470058
@@ -30,7 +30,7 @@ True
 >>> I = gh.repos('githubpy')('testgithubpy').issues(1).get()
 >>> I.url == u'https://api.github.com/repos/githubpy/testgithubpy/issues/1'
 True
->>> gh = GitHub(username='githubpy', password='test-githubpy-1234')
+>>> gh = GitHub(access_token='your-access-token')
 >>> r = gh.repos('githubpy')('testgithubpy').issues.post(title='test create issue', body='just a test')
 >>> r.title == u'test create issue'
 True
@@ -171,13 +171,10 @@ class GitHub(object):
         self.x_ratelimit_limit = (-1)
         self.x_ratelimit_reset = (-1)
         self._authorization = None
-        if username and password:
-            # roundabout hack for Python 3
-            userandpass = base64.b64encode(bytes('%s:%s' % (username, password), 'utf-8'))
-            userandpass = userandpass.decode('ascii')
-            self._authorization = 'Basic %s' % userandpass
-        elif access_token:
+        if access_token:
             self._authorization = 'token %s' % access_token
+        elif username or password:
+            raise ValueError('username/password authentication is no longer supported; provide access_token')
         self._client_id = client_id
         self._client_secret = client_secret
         self._redirect_uri = redirect_uri
