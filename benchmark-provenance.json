@@ -1,0 +1,6 @@
+{
+  "upstream": "https://github.com/michaelliao/githubpy",
+  "upstream_commit": "a123f203af68f96ad0fcb858d2754849faf542fe",
+  "cloned_from": "https://github.com/Radishchev/githubpy.git",
+  "note": "Original source is unchanged. API Guardian adds offline HTTP acceptance tests."
+}
